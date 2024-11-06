@@ -18,7 +18,7 @@ class BarCustomer(mesa.Agent):
         prediction = self.predict_attendance(
             self.best_strategy, self.model.history[-self.memory_size :]
         )
-        if prediction <= self.crowd_threshold:
+        if prediction <= self.crowd_threshold * self.model.day_attraction[self.model.current_day]:
             self.attend = True
             self.model.attendance += 1
         else:
