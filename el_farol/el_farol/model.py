@@ -23,6 +23,11 @@ class ElFarolBar(mesa.Model):
         # strategies would have worked.
         self.history = np.random.randint(0, 100, size=memory_size * 2).tolist()
         self.attendance = self.history[-1]
+
+        # Додаємо привабливість для кожного дня тижня (0 - Пн, 6 - Нд)
+        self.day_attraction = [0.6, 0.7, 1.0, 0.9, 1.6, 1.4, 1.0]  # приклад коефіцієнтів для кожного дня тижня
+        self.current_day = 0  # Початковий день тижня (Пн)
+
         for _ in range(self.num_agents):
             BarCustomer(self, memory_size, crowd_threshold, num_strategies)
 
@@ -40,3 +45,5 @@ class ElFarolBar(mesa.Model):
         self.history.pop(0)
         self.history.append(self.attendance)
         self.agents.shuffle_do("update_strategies")
+        # Переходимо на наступний день тижня
+        self.current_day = (self.current_day + 1) % 7
